@@ -44,7 +44,8 @@ const [checkbox,setcheckbox]=useState();
        e.preventDefault();
       await axios.post("http://localhost:8080/task",{
         task:formdata.task,
-        pri:formdata.pri
+        pri:formdata.pri,
+        completed:formdata.completed
       }) 
       .then(response => {
         console.log("post",response);
@@ -56,13 +57,15 @@ const [checkbox,setcheckbox]=useState();
     // handling delete request
 
    const handleclick= async(e)=>{
+    //  if(e.target.value===checkbox){
        await axios.post("http://localhost:8080/delete",{
-            checkbox:checkbox
+            checkbox:e.target.value
         }) 
         .then(response=>{
           setCount((count)=>count+1);
           window.location.reload();
         });
+      // }
    };
 
   //  identifying task to be deleted 
@@ -140,7 +143,7 @@ const [checkbox,setcheckbox]=useState();
       <div className="item">
         <input type="checkbox" className="comp" name="checkbox" value={ele._id} checked={ele.completed===1 ? true:false} onClick={handlecheck}></input>
           <p >{ele.title}</p>
-        <button className="button" onClick={handleclick} type="submit">Delete</button>
+        <button className="button" onClick={handleclick} value={ele._id} type="submit">Delete</button>
         <input type="checkbox" className="star" checked={ele.pri===1 ? true: false} name="checkbox" value={ele._id} onClick={handleimp}></input>
        
       </div>
